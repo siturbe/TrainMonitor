@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang = "en-us">
+    <head>
+        <meta charset="UTF-8">
+        <title>Train Schedules</title>
+        <link rel="stylesheet" href='assets/reset.css'>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/af.js"></script> -->
+        <link rel="stylesheet" href='assets/style.css'>
+    </head>
+
+    <body>
+        <nav>
+            <div class="nav-wrapper">
+              <a href="#!" class="brand-logo"><span style='color: black' style='font-weight: bold'>Train</span><span style='color: white' style='font-weight: bold'>Monitor</span></a>
+              <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons black-text">Menu</i></a>
+              <ul class="right hide-on-med-and-down">
+                <li class="add-train" >
+                    <a href="#" class="modal-trigger" style='font-weight: bold' data-target="modal-addTrain">Add Train</a>
+                </li>
+                <li class="clear-trains" >
+                    <a href="#" class="modal-trigger" style='font-weight: bold' data-target="modal-clearTrain">Clear List</a>
+                </li>
+              </ul>
+            </div>
+        </nav>
+        
+            <ul class="sidenav" id="mobile-demo">
+                <li class="add-train" >
+                    <a href="#" class="black-text modal-trigger" data-target="modal-addTrain">Add Train</a>
+                </li>
+                <li class="clear-trains" >
+                    <a href="#" class="black-text modal-trigger" data-target="modal-clearTrain">Clear List</a>
+                </li>
+           </ul>
+    
+
+    <!-- Add Train modal -->
+    <div id="modal-addTrain" class="modal">
+        <div class="modal-content">
+            <h4>Add Train</h4><br/>
+            <form id="add-train-form">
+                <div class="input-field">
+                    <label for="add-name">Train Name:</label> 
+                    <input type="text" id="add-name" required />
+                </div>
+                <div class="input-field">
+                    <label for="add-origin">Origin:</label> 
+                    <input type="text" id="add-origin" required />
+                </div>
+                <div class="input-field">
+                    <label for="add-destination">Destination:</label> 
+                    <input type="text" id="add-destination" required />
+                </div>
+                <div class="input-field">
+                    <input type="text" class ="datepicker" id="add-date" required /><label for="add-date">Date of Travel:</label>
+                </div>
+                <div class="input-field">
+                    <input type="text" id="add-depTime" class="timepicker" required />
+                    <label for="add-depTime">Departure Time:</label>
+                </div>
+                <div class="input-field">
+                    <input type="text" id="add-arrTime" class="timepicker" required />
+                    <label for="add-arrTime">Arrival Time:</label>
+                </div>
+
+                <button class="btn black darken-2 z-depth-0">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Clear Train modal -->
+    <div id="modal-clearTrain" class="modal">
+            <div class="modal-content">
+                <h4>Are you sure you want to delete all trains?</h4><br/>
+                <form id="clear-train-form">
+                        <p>
+                            <label>
+                                <input id='clear-box' type="checkbox"/>
+                                <span style='color: black'>Yes Clear</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input  id='no-clear-box' type="checkbox"/>
+                                <span style='color: black'>Do Not Clear</span>
+                            </label>
+                        </p>
+                        <br>
+                    <button class="btn black darken-2 z-depth-0" id="yesClear">Submit</button>
+                </form>
+            </div>
+        </div>
+
+    
+
+    <div id="container" class="container col s12 m12 l8 offset-l2">
+        <table class ="striped centered responsive-table">
+            <thead>
+              <tr>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Origin</th>
+                  <th>Destination</th>
+                  <th>Departure Time</th>
+                  <th>Arrival Time</th>
+                  <th>Departs / Departed</th>
+              </tr>
+            </thead>
+    
+            <tbody id='train-table'>
+              
+            </tbody>
+          </table>
+                
+
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/6.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.6.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.6.2/firebase-firestore.js"></script>
+
+
+    <script src="assets/script.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyD1oL9TkUcPGtplJ1-n-cORzkGPaeFVgzM",
+            authDomain: "train-schedule-45402.firebaseapp.com",
+            databaseURL: "https://train-schedule-45402.firebaseio.com",
+            projectId: "train-schedule-45402",
+            storageBucket: "train-schedule-45402.appspot.com",
+            messagingSenderId: "609702016140",
+            appId: "1:609702016140:web:0f2a158bc25d3d42ecf7a9"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        let db = firebase.firestore();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+  </body>
+
+</html>

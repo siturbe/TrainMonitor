@@ -1,0 +1,69 @@
+nav {
+    background-color: rgb(177, 171, 171);
+    border-bottom-style: solid;
+    border-bottom-color:black;
+    border-bottom-width: 5px;
+    position: fixed;
+    float: left;
+    top: 0px;
+    left: 0px;
+    z-index: 5;
+    text-align:center;
+}
+
+
+#container{
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    position: relative;
+    top: 80px;
+}
+
+th{
+    font-weight: bold;
+    background-color: black;
+    color: white;
+}
+
+body{
+    background-image: url('../assets/train-tracks.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+.datepicker-date-display{
+    background-color:grey;
+  }
+  
+.datepicker-close{
+    color: grey;
+  }
+
+.datepicker-done{
+color: grey;
+}
+
+.datepicker-cancel{
+color: grey;
+}
+.is-today{color: red !important; font-weight: bold !important;}
+/* .is-selected{color:black !important;} */
+
+
+
+.timepicker-digital-display{
+background-color:grey;
+}
+  
+.timepicker-close{
+color: grey;
+}
+
+.timepicker-canvas line { stroke: grey !important; }
+.timepicker-canvas-bearing { fill: grey !important; }
+.timepicker-canvas-bg { fill: grey !important; }
