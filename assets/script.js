@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded",function(){
                     let departureFormat = "hh:mm A";
                     let momentTime = moment(departure, departureFormat);
                 let arrival = doc.data().arrival;
+                let msec = doc.data().msec;
 
                 let dateTime = moment({
                     year: momentDate.year(),
@@ -73,7 +74,9 @@ document.addEventListener("DOMContentLoaded",function(){
                     tRow.append(arrivalTD);
                 let timeOutput = moment(dateTime).fromNow();
                 let timeUntilTD = "<td class='timeUntilTD'> " + timeOutput +"</td>";
-                        tRow.append(timeUntilTD);
+                    tRow.append(timeUntilTD);
+                let deleteBtn = '<td><button class="btn black darken-2 z-depth-0 delBtn" value="' + msec + '">X</button></td>';
+                    tRow.append(deleteBtn);
 
                 $('#train-table').append(tRow);  
 
@@ -145,6 +148,7 @@ $(document).ready(function(){
                 let departureFormat = "hh:mm A";
                 let momentTime = moment(departure, departureFormat);
             let arrival = doc.data().arrival;
+            let msec = doc.data().msec;
 
             let dateTime = moment({
                 year: momentDate.year(),
@@ -171,6 +175,8 @@ $(document).ready(function(){
             let timeOutput = moment(dateTime).fromNow();
             let timeUntilTD = "<td class='timeUntilTD'> " + timeOutput +"</td>";
                 tRow.append(timeUntilTD);
+            let deleteBtn = '<td><button class="btn black darken-2 z-depth-0 delBtn" value="' + msec + '">X</button></td>';
+                tRow.append(deleteBtn);
 
             $('#train-table').append(tRow);  
 
@@ -232,6 +238,7 @@ function reloadTable(){
                 let departureFormat = "hh:mm A";
                 let momentTime = moment(departure, departureFormat);
             let arrival = doc.data().arrival;
+            let msec = doc.data().msec;
 
             let dateTime = moment({
                 year: momentDate.year(),
@@ -258,10 +265,34 @@ function reloadTable(){
             let timeOutput = moment(dateTime).fromNow();
             let timeUntilTD = "<td class='timeUntilTD'> " + timeOutput +"</td>";
                 tRow.append(timeUntilTD);
+            let deleteBtn = '<td><button class="btn black darken-2 z-depth-0 delBtn" value="' + msec + '">X</button></td>';
+                tRow.append(deleteBtn);
 
             $('#train-table').append(tRow);  
 
         })    
 
     });
+}
+
+
+$(document).on('click','.delBtn',trainDelete);
+
+function trainDelete(){
+    let msecID = parseInt($(this).val());
+    let IDsToDelete = [];
+    $(this).parents("tr").remove();
+    var trainsInFS = db.collection('trains').where('msec','==', msecID);
+    trainsInFS.get().then(function(querySnapshot){
+        querySnapshot.forEach(function(doc){
+            let FBid = doc.id;
+            IDsToDelete.push(FBid);
+        })
+       
+        for(let k=0; k<IDsToDelete.length; k++){
+            db.collection('trains').doc(IDsToDelete[k]).delete();
+        }
+    });
+
+    
 }
