@@ -213,3 +213,13 @@ document.addEventListener('DOMContentLoaded', function() {
 $(document).ready(function(){
     $('.timepicker').timepicker();
   });
+
+  
+//Code attempting at just reloading the Div in question and not whole page every 60 seconds, but ran out of time
+// function reloadTime(){
+//     $('.timeUntilTD').load('index.html .timeUntilTD *');
+// }
+
+// (function(){
+//     setTimeout(reloadTime, 60000);
+// })
