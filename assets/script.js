@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded",function(){
         const newTrainDestination = addTrainForm['add-destination'].value;
         const newTrainDepTime = addTrainForm['add-depTime'].value;
         const newTrainArrTime = addTrainForm['add-arrTime'].value;
+        const msec = Date.parse(newTrainDate);
 
         //Add New Train Info to Firestore
         var myTrainsRef = db.collection('trains');
@@ -24,12 +25,13 @@ document.addEventListener("DOMContentLoaded",function(){
                 departure: newTrainDepTime,
                 arrival: newTrainArrTime,
                 type: 'train',
+                msec: msec,
             })
         ]);
 
         //Read All Trains from Firestore and put in table
         let IDsToTable=[];
-        var trainsInFS = db.collection('trains').where('type','==', 'train').orderBy('date','desc');
+        var trainsInFS = db.collection('trains').where('type','==', 'train').orderBy('msec');
         trainsInFS.get().then(function(querySnapshot){
             $('#train-table').empty();
             let trainsInTableFB = [ ];
@@ -132,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 //Load Table from FireBase
 $(document).ready(function(){
-    var trainsInFS = db.collection('trains').where('type','==', 'train').orderBy('date','desc');
+    var trainsInFS = db.collection('trains').where('type','==', 'train').orderBy('msec');
     trainsInFS.get().then(function(querySnapshot){
         $('#train-table').empty();
         let trainsInTableFB = [ ];
@@ -214,12 +216,9 @@ $(document).ready(function(){
     $('.timepicker').timepicker();
   });
 
-  
-//Code attempting at just reloading the Div in question and not whole page every 60 seconds, but ran out of time
-// function reloadTime(){
-//     $('.timeUntilTD').load('index.html .timeUntilTD *');
-// }
 
-// (function(){
-//     setTimeout(reloadTime, 60000);
-// })
+//Code attempting at just reloading the Div in question and not whole page every 60 seconds, but ran out of time
+setInterval("reloadTime();",10000);
+function reloadTime(){
+    $('.timeUntilTD').load('./index.html' + ' .timeUntilTD *');
+}
