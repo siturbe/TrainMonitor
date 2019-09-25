@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded",function(){
                     tRow.append(departureTD);
                 let arrivalTD = "<td class='arrivalTD'> " + arrival + "</td>";
                     tRow.append(arrivalTD);
-                let timeUntilTD = "<td class='timeUntilTD'> " + moment(dateTime).fromNow() +"</td>";
+                let timeUntilTD = "<td class='timeUntilTD'>" + moment(dateTime).fromNow() +"</td>";
                     tRow.append(timeUntilTD);
 
                 $('#train-table').append(tRow);  
@@ -174,7 +174,8 @@ $(document).ready(function(){
                 tRow.append(departureTD);
             let arrivalTD = "<td class='arrivalTD'> " + arrival + "</td>";
                 tRow.append(arrivalTD);
-            let timeUntilTD = "<td class='timeUntilTD'> " + moment(dateTime).fromNow() +"</td>";
+            let timeOutput = moment(dateTime).fromNow();
+            let timeUntilTD = "<td class='timeUntilTD'> " + timeOutput +"</td>";
                 tRow.append(timeUntilTD);
 
             $('#train-table').append(tRow);  
@@ -220,5 +221,5 @@ $(document).ready(function(){
 //Code attempting at just reloading the Div in question and not whole page every 60 seconds, but ran out of time
 // setInterval("reloadTime();",10000);
 // function reloadTime(){
-//     $('.timeUntilTD').load('https://siturbe.github.io/TrainMonitor/' + ' .timeUntilTD *');
+//     $('.timeUntilTD').load('index.html' + ' .timeUntilTD *');
 // }
