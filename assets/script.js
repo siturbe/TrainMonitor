@@ -220,5 +220,5 @@ $(document).ready(function(){
 //Code attempting at just reloading the Div in question and not whole page every 60 seconds, but ran out of time
 setInterval("reloadTime();",10000);
 function reloadTime(){
-    $('.timeUntilTD').load('./index.html' + ' .timeUntilTD *');
+    $('.timeUntilTD').load('https://siturbe.github.io/TrainMonitor/' + ' .timeUntilTD *');
 }
