@@ -34,10 +34,8 @@ document.addEventListener("DOMContentLoaded",function(){
         var trainsInFS = db.collection('trains').where('type','==', 'train').orderBy('msec');
         trainsInFS.get().then(function(querySnapshot){
             $('#train-table').empty();
-            let trainsInTableFB = [ ];
             querySnapshot.forEach(function(doc){
                 let train = doc.data();
-                trainsInTableFB.push(train);
                 let FBid = doc.id;
                 IDsToTable.push(FBid);
 
@@ -80,7 +78,6 @@ document.addEventListener("DOMContentLoaded",function(){
                 $('#train-table').append(tRow);  
 
             })
-            trainsInTable = [...new Set(trainsInTableFB)];
             
 
         });
@@ -115,8 +112,6 @@ document.addEventListener("DOMContentLoaded", function(){
                     db.collection('trains').doc(IDsToDelete[i]).delete();
                 }
                 $('#train-table').empty();
-                trainsInTable = [];
-                trainsInTableFB = [];
     
             });
 
@@ -138,10 +133,8 @@ $(document).ready(function(){
     var trainsInFS = db.collection('trains').where('type','==', 'train').orderBy('msec');
     trainsInFS.get().then(function(querySnapshot){
         $('#train-table').empty();
-        let trainsInTableFB = [ ];
         querySnapshot.forEach(function(doc){
             let train = doc.data();
-            trainsInTableFB.push(train);
 
             let date = doc.data().date;
                 let momentDate = moment(date);
@@ -182,7 +175,7 @@ $(document).ready(function(){
             $('#train-table').append(tRow);  
 
         })
-        trainsInTable = [...new Set(trainsInTableFB)];
+    
         
 
     });
@@ -219,9 +212,56 @@ $(document).ready(function(){
   });
 
 
-//Code attempting at just reloading the Div in question and not whole page every 60 seconds, but ran out of time
+//Code attempting to refresh table every 60 seconds
 
-// setInterval("reloadTime();",10000);
-// function reloadTime(){
-//     $('#train-table').load('index.html #train-table *');
-// }
+setInterval("reloadTable();", 60000);
+
+function reloadTable(){
+    var trainsInFS = db.collection('trains').where('type','==', 'train').orderBy('msec');
+    trainsInFS.get().then(function(querySnapshot){
+        $('#train-table').empty();
+        querySnapshot.forEach(function(doc){
+            let train = doc.data();
+
+            let date = doc.data().date;
+                let momentDate = moment(date);
+            let name = doc.data().name;
+            let origin = doc.data().origin;
+            let destination = doc.data().destination;
+            let departure = doc.data().departure;
+                let departureFormat = "hh:mm A";
+                let momentTime = moment(departure, departureFormat);
+            let arrival = doc.data().arrival;
+
+            let dateTime = moment({
+                year: momentDate.year(),
+                month: momentDate.month(),
+                day: momentDate.date(),
+                hour: momentTime.hours(),
+                minute: momentTime.minutes()
+            });
+
+
+            let tRow = $('<tr>')
+            let dateTD = "<td class='dateTD'> " + date + "</td>";
+                tRow.append(dateTD);
+            let nameTD = "<td class='nameTD'> " + name + "</td>";
+                tRow.append(nameTD);
+            let originTD = "<td class='originTD'> " + origin + "</td>";
+                tRow.append(originTD);
+            let destinationTD = "<td class='destinationTD'> " + destination + "</td>";
+                tRow.append(destinationTD);
+            let departureTD = "<td class='departureTD'> " + departure + "</td>";
+                tRow.append(departureTD);
+            let arrivalTD = "<td class='arrivalTD'> " + arrival + "</td>";
+                tRow.append(arrivalTD);
+            let timeOutput = moment(dateTime).fromNow();
+            let timeUntilTD = "<td class='timeUntilTD'> " + timeOutput +"</td>";
+                tRow.append(timeUntilTD);
+
+            $('#train-table').append(tRow);  
+
+        })    
+
+    });
+}
