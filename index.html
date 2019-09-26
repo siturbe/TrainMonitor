@@ -9,7 +9,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <link rel="stylesheet" href='assets/style.css'>
-        <!-- <meta http-equiv="refresh" content="60"> Code to  udpate from now eveyr minute -->
     </head>
 
     <body>
@@ -72,7 +71,7 @@
         </div>
     </div>
 
-    <!-- Clear Train modal -->
+    <!-- Clear Train List modal -->
     <div id="modal-clearTrain" class="modal">
             <div class="modal-content">
                 <h4>Are you sure you want to delete all trains?</h4><br/>
@@ -94,6 +93,31 @@
                 </form>
             </div>
         </div>
+
+
+        <!-- Clear individual Train modal -->
+        <div id="modal-clearOneTrain" class="modal">
+            <div class="modal-content">
+                <h4>Are you sure you want to delete this train?</h4><br/>
+                <form id="clear-one-train-form">
+                        <p>
+                            <label>
+                                <input id='clear-box2' type="checkbox"/>
+                                <span style='color: black'>Yes, delete</span>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <input  id='no-clear-box2' type="checkbox"/>
+                                <span style='color: black'>Do Not Delete</span>
+                            </label>
+                        </p>
+                        <br>
+                    <button class="btn black darken-2 z-depth-0" id="yesDelete2">Submit</button>
+                </form>
+            </div>
+        </div>
+
 
     
 

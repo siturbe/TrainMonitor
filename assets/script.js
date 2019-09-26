@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded",function(){
                 let timeOutput = moment(dateTime).fromNow();
                 let timeUntilTD = "<td class='timeUntilTD'> " + timeOutput +"</td>";
                     tRow.append(timeUntilTD);
-                let deleteBtn = '<td><button class="btn black darken-2 z-depth-0 delBtn" value="' + msec + '">X</button></td>';
+                let deleteBtn = '<td><button class="btn modal-trigger black darken-2 z-depth-0 delBtn" data-target="modal-clearOneTrain" value="' + msec + '">X</button></td>';
                     tRow.append(deleteBtn);
 
                 $('#train-table').append(tRow);  
@@ -120,8 +120,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
         }
         
-
-
 
         const modal = document.querySelector('#modal-clearTrain');
         M.Modal.getInstance(modal).close();
@@ -175,7 +173,7 @@ $(document).ready(function(){
             let timeOutput = moment(dateTime).fromNow();
             let timeUntilTD = "<td class='timeUntilTD'> " + timeOutput +"</td>";
                 tRow.append(timeUntilTD);
-            let deleteBtn = '<td><button class="btn black darken-2 z-depth-0 delBtn" value="' + msec + '">X</button></td>';
+            let deleteBtn = '<td><button class="btn modal-trigger black darken-2 z-depth-0 delBtn" data-target="modal-clearOneTrain" value="' + msec + '">X</button></td>';
                 tRow.append(deleteBtn);
 
             $('#train-table').append(tRow);  
@@ -193,7 +191,7 @@ $(document).ready(function(){
 
 
 
-// materialize components
+// Event listener for modals to pop up
 document.addEventListener('DOMContentLoaded', function() {
     let modals = document.querySelectorAll('.modal');
     M.Modal.init(modals);
@@ -218,8 +216,7 @@ $(document).ready(function(){
   });
 
 
-//Code attempting to refresh table every 60 seconds
-
+//Code to refresh table every 60 seconds
 setInterval("reloadTable();", 60000);
 
 function reloadTable(){
@@ -265,7 +262,7 @@ function reloadTable(){
             let timeOutput = moment(dateTime).fromNow();
             let timeUntilTD = "<td class='timeUntilTD'> " + timeOutput +"</td>";
                 tRow.append(timeUntilTD);
-            let deleteBtn = '<td><button class="btn black darken-2 z-depth-0 delBtn" value="' + msec + '">X</button></td>';
+            let deleteBtn = '<td><button class="btn modal-trigger black darken-2 z-depth-0 delBtn" data-target="modal-clearOneTrain" value="' + msec + '">X</button></td>';
                 tRow.append(deleteBtn);
 
             $('#train-table').append(tRow);  
@@ -275,24 +272,68 @@ function reloadTable(){
     });
 }
 
+//Original code to delete one line without a pop up modal
+// $(document).on('click','.delBtn',trainDelete);
 
-$(document).on('click','.delBtn',trainDelete);
-
-function trainDelete(){
-    let msecID = parseInt($(this).val());
-    let IDsToDelete = [];
-    $(this).parents("tr").remove();
-    var trainsInFS = db.collection('trains').where('msec','==', msecID);
-    trainsInFS.get().then(function(querySnapshot){
-        querySnapshot.forEach(function(doc){
-            let FBid = doc.id;
-            IDsToDelete.push(FBid);
-        })
+// function trainDelete(){
+//     let msecID = parseInt($(this).val());
+//     let IDsToDelete = [];
+//     $(this).parents("tr").remove();
+//     var trainsInFS = db.collection('trains').where('msec','==', msecID);
+//     trainsInFS.get().then(function(querySnapshot){
+//         querySnapshot.forEach(function(doc){
+//             let FBid = doc.id;
+//             IDsToDelete.push(FBid);
+//         })
        
-        for(let k=0; k<IDsToDelete.length; k++){
-            db.collection('trains').doc(IDsToDelete[k]).delete();
-        }
-    });
+//         for(let k=0; k<IDsToDelete.length; k++){
+//             db.collection('trains').doc(IDsToDelete[k]).delete();
+//         }
+//     });
 
     
+// }
+
+
+
+//Make Clear individual Train Functionality Work with a pop up confirmation:
+let msecID;
+let rowToDelete;
+
+$(document).on('click','.delBtn',trainDelete);
+function trainDelete(){
+     msecID = parseInt($(this).val());
+     rowToDelete = $(this).parents("tr");
 }
+
+document.addEventListener("DOMContentLoaded", function(){
+    const clearOneTrainForm = document.querySelector("#clear-one-train-form");
+    clearOneTrainForm.addEventListener('submit', (e) =>{
+        e.preventDefault();
+        let choice;
+        let clearTrue = document.getElementById('clear-box2').checked;
+        if( clearTrue == true){choice='delete'} else { choice = 'NOdelte'};
+        
+        if(choice === 'delete'){
+            //code to delete one train
+            let IDsToDelete = [];
+            rowToDelete.remove();
+            var trainsInFS = db.collection('trains').where('msec','==', msecID);
+            trainsInFS.get().then(function(querySnapshot){
+                querySnapshot.forEach(function(doc){
+                    let FBid = doc.id;
+                    IDsToDelete.push(FBid);
+                })
+        
+                for(let k=0; k<IDsToDelete.length; k++){
+                    db.collection('trains').doc(IDsToDelete[k]).delete();
+                }
+            });
+
+        }
+        
+        const modal = document.querySelector('#modal-clearOneTrain');
+        M.Modal.getInstance(modal).close();
+        clearOneTrainForm.reset();        
+    });
+})
